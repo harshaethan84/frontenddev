@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Change Password & Address — Pulapaka Harsha</title>
+  <meta name="description" content="Secure form to change password and address details." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html">OCU - Forms</a>
+    <button class="mobile-nav-btn" id="mobileBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav>
+      <ul id="mainNav" class="main-nav">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown" id="moreDropdown">
+          <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">More ▾</button>
+          <div class="dropdown-menu">
+            <a href="form.html">Change Password & Address</a>
+            <a href="map.html">Map - Top 5 Places</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div style="text-align: center;">
+        <img src="images/profile.jpg" alt="Pulapaka Harsha" class="profile-img" />
+    </div>
+
+    <form id="passwordForm" novalidate>
+      <div class="form-group">
+        <label for="currentPassword">Current Password</label>
+        <input id="currentPassword" type="password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input id="newPassword" type="password" required
+          pattern="^(?=(?:[^A-Z]*[A-Z]){2}[^A-Z]*$)(?=(?:[^!@#$%^&*]*[!@#$%^&*]){1}[^!@#$%^&*]*$)[A-Za-z\d!@#$%^&*]{9,}$" />
+        <small style="color: var(--muted); font-size: 0.85rem;">Minimum 9 chars, exactly 2 uppercase letters, and exactly 1 special symbol.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm New Password</label>
+        <input id="confirmPassword" type="password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="shippingAddress"><strong>Shipping Address</strong></label>
+        <textarea id="shippingAddress" rows="3" placeholder="Enter new address"></textarea>
+        <button type="button" id="changeAddrBtn">Change Address</button>
+      </div>
+
+      <button type="submit">Change Password</button>
+      <div id="formMessage"></div>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Pulapaka Harsha — Secure Form</p>
+  </footer>
+
+  <script>
+    // --- Form Script ---
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('passwordForm');
+      const newPass = document.getElementById('newPassword');
+      const confirm = document.getElementById('confirmPassword');
+      const message = document.getElementById('formMessage');
+      const addr = document.getElementById('shippingAddress');
+      const changeAddrBtn = document.getElementById('changeAddrBtn');
+
+      var stored = localStorage.getItem('shippingAddress');
+      if (stored) addr.value = stored;
+
+      changeAddrBtn.addEventListener('click', () => {
+        const val = addr.value.trim();
+        if (!val) return alert('Please enter an address first.');
+        localStorage.setItem('shippingAddress', val);
+        alert('Address updated successfully!');
+      });
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        message.textContent = '';
+        
+        if (!newPass.checkValidity()) {
+          message.style.color = 'var(--danger)';
+          message.textContent = 'Password does not meet security requirements. (Min 9 chars, 2 uppercase, 1 special).';
+          return;
+        }
+        if (newPass.value !== confirm.value) {
+          message.style.color = 'var(--danger)';
+          message.textContent = 'Passwords do not match.';
+          return;
+        }
+        message.style.color = 'var(--success)';
+        message.textContent = 'Password changed successfully!';
+        form.reset();
+      });
+    });
+
+    // --- Navigation Script ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdown = document.getElementById('moreDropdown');
+      if (dropdown) {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        toggle.addEventListener('click', () => {
+          const isOpen = dropdown.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', isOpen);
+        });
+        document.addEventListener('click', e => {
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      const mobileBtn = document.getElementById('mobileBtn');
+      const mainNav = document.getElementById('mainNav');
+      if (mobileBtn && mainNav) {
+        mobileBtn.addEventListener('click', () => {
+          const isVisible = mainNav.classList.toggle('show');
+          mobileBtn.setAttribute('aria-expanded', isVisible);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

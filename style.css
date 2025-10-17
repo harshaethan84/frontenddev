@@ -1,0 +1,335 @@
+/* =======================================
+  GLOBAL STYLES (Your Dark Theme)
+  =======================================
+*/
+:root {
+  --bg: #101820;
+  --nav-bg: #16213e;
+  --text: #ffffff;
+  --accent: #00adb5;
+  --card-bg: #1f4068;
+  --muted: #ccc;
+  --success: lightgreen;
+  --danger: crimson;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Cambria, serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  padding: 1rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* =======================================
+  HEADER & NAVIGATION (Consistent)
+  =======================================
+*/
+.site-header {
+  background: var(--nav-bg);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-header a {
+  color: var(--text);
+  font-weight: bold;
+}
+.site-header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--text);
+}
+
+.main-nav {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+.main-nav a:hover {
+  color: var(--accent);
+}
+
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+}
+.dropdown-toggle {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background: var(--card-bg);
+  top: 100%;
+  left: 0;
+  border-radius: 8px;
+  min-width: 220px;
+  text-align: left;
+  padding: 0.5rem 0;
+  z-index: 101;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.dropdown-menu a {
+  display: block;
+  color: #fff;
+  padding: 0.6rem 1rem;
+}
+.dropdown-menu a:hover {
+  background: #00adb54a;
+}
+.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+.mobile-nav-btn {
+  display: none; /* Hidden by default */
+  background: none;
+  color: white;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* =======================================
+  PAGE: index.html (Profile & Bio)
+  =======================================
+*/
+.profile {
+  margin-top: 2rem;
+  text-align: center;
+}
+.profile-photo, .profile-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+}
+.profile h1 {
+  margin-top: 0.8rem;
+  color: var(--accent);
+}
+.profile p {
+  font-size: 1rem;
+  color: var(--muted);
+  margin: 0.3rem 0;
+}
+
+.bio {
+  text-align: center;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+/* =======================================
+  DYNAMIC CARD & GRID SYSTEM
+  =======================================
+*/
+/* Reusable grid for home and map page */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 1000px;
+}
+
+/* Unified card style */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+.card:hover {
+  transform: translateY(-6px);
+}
+.card img {
+  width: 100%;
+  height: 170px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 1rem; /* Space between image and text */
+}
+.card h3 {
+  margin: 0 0 0.3rem;
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+.card p {
+  font-size: 0.95rem;
+  color: #dcdcdc;
+  margin: 0;
+  flex-grow: 1; /* Allows text to fill space */
+}
+
+/* Specific style for map result cards */
+.card.place-card {
+  background: #2a2a2a;
+  color: var(--text);
+  cursor: pointer;
+  /* Make it a button */
+  border: none;
+  font-family: inherit;
+  width: 100%;
+}
+.card.place-card h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+.card.place-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+
+/* =======================================
+  PAGE: forms.html
+  =======================================
+*/
+form {
+  max-width: 600px;
+  margin: 1rem auto;
+  background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: left;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+input[type="password"],
+input[type="search"],
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: none;
+  margin-top: 0.5rem;
+  background: #f0f0f0;
+  color: #121212;
+}
+button {
+  margin-top: 1.5rem;
+  background: #4da6ff;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+}
+button:hover {
+  background: #007bff;
+}
+button[type="button"] {
+  background: #555;
+}
+button[type="button"]:hover {
+  background: #777;
+}
+
+#formMessage {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+/* =======================================
+  PAGE: map.html
+  =======================================
+*/
+#map {
+  width: 100%;
+  height: 500px;
+  min-height: 400px;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+
+/* =======================================
+  RESPONSIVE (Mobile)
+  =======================================
+*/
+@media (max-width: 768px) {
+  .main-nav {
+    display: none; /* Hide on mobile */
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--nav-bg);
+    padding: 1rem;
+    border-radius: 10px;
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    width: 200px;
+  }
+  .main-nav.show {
+    display: flex;
+  }
+  .mobile-nav-btn {
+    display: block; /* Show on mobile */
+  }
+  .site-header h1 {
+    font-size: 1.2rem;
+  }
+}

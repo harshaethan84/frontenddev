@@ -1,0 +1,24 @@
+{
+  "hero": {
+    "title": "Pulapaka Harsha",
+    "subtitle": "Instructor \u2014 Oklahoma City",
+    "summary": "Dynamic Web Experience demo for CSCI6313. Content is loaded dynamically from content.json to simulate a CMS-driven site."
+  },
+  "sections": [
+    {
+      "id": "about",
+      "title": "About",
+      "body": "This section is loaded from a JSON file and demonstrates dynamic content loading similar to modern CMS-driven sites."
+    },
+    {
+      "id": "features",
+      "title": "Features",
+      "body": "Dynamic content, Responsive Design, Accessibility (WCAG), Google Maps integration, and Client-side validation."
+    },
+    {
+      "id": "personalization",
+      "title": "Personalization",
+      "body": "Content can be personalized for users (stored preferences, localStorage) and updated without changing HTML files."
+    }
+  ]
+}

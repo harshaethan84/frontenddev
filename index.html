@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pulapaka Harsha — My Courses</title>
+  <meta name="description" content="Courses enrolled by Pulapaka Harsha — Cybersecurity, Frontend, and Cloud Development" />
+  <link href="https://fonts.googleapis.com/css2?family=Cambria&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html">OCU - Profile</a>
+    <button class="mobile-nav-btn" id="mobileBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav>
+      <ul id="mainNav" class="main-nav">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown" id="moreDropdown">
+          <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">More ▾</button>
+          <div class="dropdown-menu">
+            <a href="form.html">Change Password & Address</a>
+            <a href="map.html">Map - Top 5 Places</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="profile">
+      <img src="images/profile.jpg" alt="Pulapaka Harsha" class="profile-photo" />
+      <h1>Pulapaka Harsha</h1>
+      <p>Student at Oklahoma City University</p>
+      <p><strong>Pursuing Master's in Cybersecurity</strong></p>
+    </section>
+    
+    <section class="bio">
+      <h2>About Me</h2>
+      <p>
+        I’m <strong>Pulapaka Harsha</strong>, a <strong>Cybersecurity Enthusiast</strong> passionate about digital defense,
+        ethical hacking, and technology innovation.
+      </p>
+    </section>
+
+    <section class="card-grid">
+      <div class="card">
+        <img src="images/offensive.jpg" alt="Cybersecurity course illustration">
+        <h3>Cybersecurity</h3>
+        <p>Learn how to protect systems and networks from digital attacks and cyber threats.</p>
+      </div>
+
+      <div class="card">
+        <img src="images/cloud.jpg" alt="Frontend development course illustration">
+        <h3>Frontend Development</h3>
+        <p>Build responsive and interactive user interfaces using HTML, CSS, and JavaScript.</p>
+      </div>
+
+      <div class="card">
+        <img src="images/defensive.jpg" alt="Cloud development course illustration">
+        <h3>Cloud Development</h3>
+        <p>Master cloud platforms and deployment strategies to build scalable applications.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built for <strong>AVANTI</strong> — Master behind these web pages.</p>
+  </footer>
+
+  <script>
+    // --- Navigation Script ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdown = document.getElementById('moreDropdown');
+      if (dropdown) {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        toggle.addEventListener('click', () => {
+          const isOpen = dropdown.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', isOpen);
+        });
+        document.addEventListener('click', e => {
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      const mobileBtn = document.getElementById('mobileBtn');
+      const mainNav = document.getElementById('mainNav');
+      if (mobileBtn && mainNav) {
+        mobileBtn.addEventListener('click', () => {
+          const isVisible = mainNav.classList.toggle('show');
+          mobileBtn.setAttribute('aria-expanded', isVisible);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

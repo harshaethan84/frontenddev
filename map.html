@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Explore Places — Oklahoma City</title>
+  <meta name="description" content="Search and explore nearby places using Google Maps JavaScript API and Places Library." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html">OCU - Map Explorer</a>
+    <button class="mobile-nav-btn" id="mobileBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav>
+      <ul id="mainNav" class="main-nav">
+        <li><a href="index.html">Home</a></li>
+        <li class="dropdown" id="moreDropdown">
+          <button type="button" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">More ▾</button>
+          <div class="dropdown-menu">
+            <a href="form.html">Change Password & Address</a>
+            <a href="map.html">Map - Top 5 Places</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container" id="main">
+    <div class="form-group">
+      <label for="searchInput">Search any place nearby</label>
+      <input id="searchInput" type="search" placeholder="e.g., restaurants, hospitals, coffee shops" aria-label="Search places nearby" />
+    </div>
+    
+    <div id="map" role="region" aria-label="Map showing search results"></div>
+    
+    <div id="results" class="card-grid" aria-live="polite">
+        </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Pulapaka Harsha — Explore the World Securely</p>
+  </footer>
+
+  <script>
+    let map, service, markers = [], infoWindow;
+
+    function initMap() {
+      const okc = { lat: 35.46756, lng: -97.51643 }; // Default: OKC
+      map = new google.maps.Map(document.getElementById("map"), { center: okc, zoom: 13 });
+      infoWindow = new google.maps.InfoWindow();
+      service = new google.maps.places.PlacesService(map);
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = { lat: position.coords.latitude, lng: position.coords.longitude };
+            map.setCenter(pos);
+            new google.maps.Marker({ map, position: pos, title: "Your Location" });
+          },
+          () => console.warn("Geolocation denied, defaulting to OKC.")
+        );
+      }
+
+      document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (this.value.trim()) textSearch(this.value);
+        }
+      });
+    }
+
+    function clearMarkers() { markers.forEach(m => m.setMap(null)); markers = []; }
+
+    function textSearch(query) {
+      const request = { query: query, fields: ['name', 'geometry', 'formatted_address', 'place_id'] };
+      service.textSearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK && results.length) {
+          renderResults(results.slice(0, 5)); // Get top 5
+        } else document.getElementById('results').innerHTML = '<p>No results found.</p>';
+      });
+    }
+
+    function renderResults(places) {
+      clearMarkers();
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+      
+      places.forEach((p, idx) => {
+        // UPDATED: Create a button with the card classes for consistent styling
+        const card = document.createElement('button');
+        card.className = 'card place-card'; // Use unified card style
+        card.setAttribute('type', 'button');
+        
+        // Set inner HTML for the card
+        card.innerHTML = '<h3>' + p.name + '</h3><p>' + (p.formatted_address || 'Address not available') + '</p>';
+        
+        card.addEventListener('click', () => {
+          map.setCenter(p.geometry.location);
+          map.setZoom(15);
+          if (markers[idx]) google.maps.event.trigger(markers[idx], 'click');
+        });
+        container.appendChild(card);
+
+        // Create marker
+        const marker = new google.maps.Marker({
+          map,
+          position: p.geometry.location,
+          title: p.name,
+          animation: google.maps.Animation.DROP
+        });
+        
+        marker.addListener('click', () => {
+          infoWindow.setContent('<div><strong>' + p.name + '</strong><div>' + (p.formatted_address || '') + '</div></div>');
+          infoWindow.open(map, marker);
+        });
+        markers.push(marker);
+      });
+    }
+
+    // --- Navigation Script ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropdown = document.getElementById('moreDropdown');
+      if (dropdown) {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        toggle.addEventListener('click', () => {
+          const isOpen = dropdown.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', isOpen);
+        });
+        document.addEventListener('click', e => {
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      const mobileBtn = document.getElementById('mobileBtn');
+      const mainNav = document.getElementById('mainNav');
+      if (mobileBtn && mainNav) {
+        mobileBtn.addEventListener('click', () => {
+          const isVisible = mainNav.classList.toggle('show');
+          mobileBtn.setAttribute('aria-expanded', isVisible);
+        });
+      }
+    });
+  </script>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKqkZFzOy1WDpbV1Oy7aOEq619bI99SnE&libraries=places&callback=initMap"></script>
+</body>
+</html>
